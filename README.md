@@ -60,10 +60,10 @@ Na początku była fascynacja...
 
 Rok wcześniej byłem na konferencji DevConf 2024 w Łodzi.
 
-Tam spotkałem człowieka o imieniu Lemon: https://ahoylemon.xyz/
+Tam spotkałem człowieka o imieniu Lemon: [Hi, my name is Lemon](https://ahoylemon.xyz/)
 Trzeba to zobaczyć aby zrozumieć. Człowiek tryskający energią, radością. Pokazał mi świat PWA. I wsiąkłem. Na początku była fascynacja...
 
-Na innym panelu Daniel Gaszewski: https://www.linkedin.com/in/daniel-gaszewski-62a9a810b/?originalSubdomain=se
+Na innym panelu [Daniel Gaszewski](https://www.linkedin.com/in/daniel-gaszewski-62a9a810b/?originalSubdomain=se)
 Opowiadał o tym co już znałem, czyli cellular automata. Gra w życie i takie tam. Ale coś klikło w głowie, głębokie zafascynowanie. Na początku była fascynacja... 
 
 Czemu o tej fascynacji tyle? Bo oszukiwałem się, że jestem pasjonatą. Ale nie. Pasjonata robi to co kocha. Fascynat słucha, dowiaduje i uczy się o tym, ale nic z tym nie robi.
