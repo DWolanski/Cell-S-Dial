@@ -1,4 +1,3 @@
-
 var x = 100;
 var y = 100;
 
@@ -11,7 +10,31 @@ var canvas = document.getElementById("game");
 var ctx = canvas.getContext("2d");
 var fps = 26;
 
-var playerSpeed = 13;
+var playerSpeed = 3;
+var playerSprite = new Image();
+playerSprite.src = "Assets/Player_Ship_1.png";
+
+const SPRITE_WIDTH = 32;
+const SPRITE_HEIGHT = 32;
+const BORDER_WIDTH = 0;
+const SPACING_WIDTH = 0;
+
+var playerFrameAnimationPosition = spritePositionToImagePosition(0, 0);
+
+// converts a row and column of the spritesheet
+// to coordinates in an image
+function spritePositionToImagePosition(row, col) {
+    return {
+        x: (
+            BORDER_WIDTH +
+            col * (SPACING_WIDTH + SPRITE_WIDTH)
+        ),
+        y: (
+            BORDER_WIDTH +
+            row * (SPACING_WIDTH + SPRITE_HEIGHT)
+        )
+    }
+}
 
 window.onload = function()
 {
@@ -56,30 +79,21 @@ function isColliding(potentialX, potentialY, playerWidth, playerHeight)
 
 function gamelogic()
 {
-    if(left && !isColliding(player[0] - playerSpeed, player[1], player[0] + player[2], player[1] + player[3]))
+    if(left)
     {
         x -= playerSpeed;
     }
     if(right)
     {
-        if(!isColliding(player))
-        {
-            x += playerSpeed;
-        }
+        x += playerSpeed;
     }
     if(up)
     {
-        if(!isColliding(player))
-        {
-            y -= playerSpeed;
-        }
+        y -= playerSpeed;
     }
     if(down)
     {
-        if(!isColliding(player))
-        {
-            y += playerSpeed;
-        }
+        y += playerSpeed;
     }
 }
 
@@ -113,15 +127,33 @@ var wall3 = [ 500, 50, 50, 500 ]
 var wall4 = [ 50, 500, 500, 50 ]
 var walls = [ wall1, wall2, wall3, wall4 ]
 
+var frameCount = 6;
 function paintScreen()
 {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#696";
+    // ctx.fillStyle = "#696";
+    // player[0] = x;
+    // player[1] = y;
+    // ctx.fillRect(player[0], player[1], player[2], player[3]);
+    var frame = --frameCount > 3 ? 0 : 1;
+    if(frameCount == 0){
+        frameCount = 6;
+    }
+    var playerFrameAnimationPosition = spritePositionToImagePosition(frame, 0);
     player[0] = x;
     player[1] = y;
-    ctx.fillRect(player[0], player[1], player[2], player[3]);
+    ctx.drawImage(
+        playerSprite,
+        playerFrameAnimationPosition.x,
+        playerFrameAnimationPosition.y,
+        SPRITE_WIDTH,
+        SPRITE_HEIGHT,
+        player[0],
+        player[1],
+        SPRITE_WIDTH,
+        SPRITE_HEIGHT);
 
     walls.forEach((wall) => 
     {
