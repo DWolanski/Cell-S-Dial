@@ -1,6 +1,13 @@
 # Cell-S-Dial
 Top down space shooter inspired by all the great games of this genre on NES/Famicom and by cellular automata mechanics.
 
+## How to launch, or 'it works for me'
+1. Install live-server: `npm install -g live-server`
+2. Go to repository root
+3. From command line: `npx live-server --port=8080 --host=192.168.0.133 --cors`
+4. Default browser should automatically open and go to host address
+5. Have fun playing/testing :-)
+
 ## Features
 1. HTML canvas rendering
 2. Loading external assets
