@@ -14,43 +14,66 @@
 
     <!-- <script src="game_logic.js"></script> -->
     <script>
-      var x = 100;
-      var y = 100;
-
-      var left = false;
-      var up = false;
-      var right = false;
-      var down = false;
 
       var canvas = document.getElementById("game");
       var ctx = canvas.getContext("2d");
       var fps = 26;
+      var currentTick = 0;
 
-      var playerSpeed = 1;
-      var playerSprite = new Image();
-      playerSprite.src = "Assets/Player_Ship_1.png";
+      var player = 
+      {
+        x: 100,
+        y: 100,
+        left: false,
+        up: false,
+        right: false,
+        down: false,
+        speed: 10,
+        assets: 
+        {
+            getSpriteSheet()
+            {
+                let image = new Image();
+                image.src = "Assets/Player_Ship_1.png";
+                return image;
+            },
+            currentSprite: 0,
+      //TODO: later on extract generic method for getting spritesheet along with each sprite coords
+            getSpriteFrames()
+            {
+                let spriteWidth = 32;
+                let spriteHeight = 32;
+                let rowsCount = 1;
+                let columnsCount = 2;
 
-      const SPRITE_WIDTH = 32;
-      const SPRITE_HEIGHT = 32;
-      const BORDER_WIDTH = 0;
-      const SPACING_WIDTH = 0;
+                let spriteFrames = [];
+                for(let row = 0; row < rowsCount; row++)
+                {
+                    for(let column = 0; column < columnsCount; column++)
+                    {
+                        spriteFrames[row+column] = 
+                        {
+                            x: (column * (spriteWidth)),
+                            y: (row * (spriteHeight)),
+                            spriteWidth: spriteWidth,
+                            spriteHeight: spriteHeight
+                        };
+                    }
+                }
 
-      var playerFrameAnimationPosition = spritePositionToImagePosition(0, 0);
-
-      // converts a row and column of the spritesheet
-      // to coordinates in an image
-      function spritePositionToImagePosition(row, col) {
-          return {
-              x: (
-                  BORDER_WIDTH +
-                  col * (SPACING_WIDTH + SPRITE_WIDTH)
-              ),
-              y: (
-                  BORDER_WIDTH +
-                  row * (SPACING_WIDTH + SPRITE_HEIGHT)
-              )
-          }
-      }
+                return spriteFrames;
+            },
+            getNextSprite()
+            {
+                ++this.currentSprite;
+                if(this.currentSprite == this.getSpriteFrames().length)
+                {
+                    this.currentSprite = 0;
+                }
+                return this.getSpriteFrames()[this.currentSprite];
+            }
+        }
+      };
 
       window.onload = function()
       {
@@ -70,46 +93,23 @@
           return !(r2l > r1r || r2r < r1l || r2u > r1d || r2d < r1u)
       }
 
-      function isColliding(potentialX, potentialY, playerWidth, playerHeight)
-      {
-          let isColliding = false
-          walls.forEach((wall) => 
-          {
-              if(intersectRect(
-                  potentialX, 
-                  potentialY,
-                  potentialX + playerWidth,
-                  potentialY + playerHeight,
-                  wall[0],
-                  wall[1],
-                  wall[0] + wall[2],
-                  wall[1] + wall[3]))
-              {
-                  isColliding = true;
-                  return;
-              }
-          });
-
-          return isColliding;
-      }
-
       function gamelogic()
       {
-          if(left)
+          if(player.left)
           {
-              x -= playerSpeed;
+            player.x -= player.speed;
           }
-          if(right)
+          if(player.right)
           {
-              x += playerSpeed;
+            player.x += player.speed;
           }
-          if(up)
+          if(player.up)
           {
-              y -= playerSpeed;
+            player.y -= player.speed;
           }
-          if(down)
+          if(player.down)
           {
-              y += playerSpeed;
+            player.y += player.speed;
           }
       }
 
@@ -118,10 +118,11 @@
           console.log(event.keyCode)
           switch(event.keyCode)
           {
-              case 37: left = true; break;
-              case 38: up = true; break;
-              case 39: right = true; break;
-              case 40: down = true; break;
+              case 37: player.left = true; break;
+              case 38: player.up = true; break;
+              case 39: player.right = true; break;
+              case 40: player.down = true; break;
+              case 90: player.fire = true; break;
           }
       }
 
@@ -129,53 +130,31 @@
       {
           switch(event.keyCode)
           {
-              case 37: left = false; break;
-              case 38: up = false; break;
-              case 39: right = false; break;
-              case 40: down = false; break;
+              case 37: player.left = false; break;
+              case 38: player.up = false; break;
+              case 39: player.right = false; break;
+              case 40: player.down = false; break;
+              case 90: player.fire = false; break;
           }
       }
 
-      var player = [ 0, 0, 100, 100 ]
-      var wall1 = [ 50, 50, 50, 500 ]
-      var wall2 = [ 50, 50, 500, 50 ]
-      var wall3 = [ 500, 50, 50, 500 ]
-      var wall4 = [ 50, 500, 500, 50 ]
-      var walls = [ wall1, wall2, wall3, wall4 ]
-
-      var frameCount = 6;
       function paintScreen()
       {
           ctx.fillStyle = "#000";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          // ctx.fillStyle = "#696";
-          // player[0] = x;
-          // player[1] = y;
-          // ctx.fillRect(player[0], player[1], player[2], player[3]);
-          var frame = --frameCount > 3 ? 0 : 1;
-          if(frameCount == 0){
-              frameCount = 6;
-          }
-          var playerFrameAnimationPosition = spritePositionToImagePosition(frame, 0);
-          player[0] = x;
-          player[1] = y;
-          ctx.drawImage(
-              playerSprite,
-              playerFrameAnimationPosition.x,
-              playerFrameAnimationPosition.y,
-              SPRITE_WIDTH,
-              SPRITE_HEIGHT,
-              player[0],
-              player[1],
-              SPRITE_WIDTH,
-              SPRITE_HEIGHT);
+          var playerSprite = player.assets.getNextSprite();
 
-          walls.forEach((wall) => 
-          {
-              ctx.fillStyle = "#fc031c";
-              ctx.fillRect(wall[0], wall[1], wall[2], wall[3]);
-          })
+          ctx.drawImage(
+            player.assets.getSpriteSheet(),
+            playerSprite.x,
+            playerSprite.y,
+            playerSprite.spriteWidth,
+            playerSprite.spriteHeight,
+            player.x,
+            player.y,
+            playerSprite.spriteWidth,
+            playerSprite.spriteHeight);
       }
     </script>
 
