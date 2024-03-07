@@ -1,8 +1,6 @@
 canvas {
-  left: 0;
-  right: 0;
-  width: 440px;
-  height: 300px;
+  width: 99%;
+  height: 99%;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;

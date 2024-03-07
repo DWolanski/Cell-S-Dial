@@ -10,14 +10,14 @@
   </head>
   <body>
 
-    <canvas id="game" width="800" height="600"></canvas>
+    <canvas id="game"></canvas>
 
     <!-- <script src="game_logic.js"></script> -->
     <script>
 
       var canvas = document.getElementById("game");
-      var ctx = canvas.getContext("2d");
-      var fps = 26;
+      var drawingArea = canvas.getContext("2d");
+      var fps = 20;
       var currentTick = 0;
 
       class SpriteFrameLocation
@@ -31,6 +31,11 @@
         }
       }
 
+      var bullet = {
+        x: 0,
+        y: 0,
+      }
+
       var player = 
       {
         x: 100,
@@ -39,53 +44,51 @@
         up: false,
         right: false,
         down: false,
+        fire: false,
         speed: 10,
-        assets: 
+        assets:
         {
-            getSpriteSheet: function ()
-            {
-                let image = new Image();
-                image.src = "Assets/Player_Ship_1.png";
-                return image;
-            },
-            currentSprite: 0,
-      //TODO: later on extract generic method for getting spritesheet along with each sprite coords
-            getSpriteFrames: function ()
-            {
-                let spriteWidth = 32;
-                let spriteHeight = 32;
-                let rowsCount = 1;
-                let columnsCount = 2;
+          getSpriteSheet: function ()
+          {
+            let image = new Image();
+            image.src = "Assets/Player_Ship_1.png";
+            return image;
+          },
+          currentSprite: 0,
+    //TODO: later on extract generic method for getting spritesheet along with each sprite coords
+          getSpriteFrames: function ()
+          {
+            let spriteWidth = 32;
+            let spriteHeight = 32;
+            let rowsCount = 1;
+            let columnsCount = 2;
 
-                let spriteFrames = [];
-                for(let row = 0; row < rowsCount; row++)
-                {
-                    for(let column = 0; column < columnsCount; column++)
-                    {
-                        spriteFrames[row + column] = new SpriteFrameLocation
-                        (
-                          row * spriteWidth,
-                          column * spriteHeight,
-                          spriteWidth,
-                          spriteHeight
-                        );
-                    }
-                }
-
-                return spriteFrames;
-            },
-            getNextSprite: function ()
+            let spriteFrames = [];
+            for(let row = 0; row < rowsCount; row++)
             {
-                if(currentTick % fps == 0)
-                {
-                  ++this.currentSprite;
-                  if(this.currentSprite == this.getSpriteFrames().length)
-                  {
-                      this.currentSprite = 0;
-                  }
-                }
-                return this.getSpriteFrames()[this.currentSprite];
+              for(let column = 0; column < columnsCount; column++)
+              {
+                spriteFrames[row + column] = new SpriteFrameLocation
+                (
+                  row * spriteWidth,
+                  column * spriteHeight,
+                  spriteWidth,
+                  spriteHeight
+                );
+              }
             }
+
+            return spriteFrames;
+          },
+          getNextSprite: function ()
+          {
+            ++this.currentSprite;
+            if(this.currentSprite == this.getSpriteFrames().length)
+            {
+                this.currentSprite = 0;
+            }
+            return this.getSpriteFrames()[this.currentSprite];
+          }
         }
       };
 
@@ -154,13 +157,13 @@
 
       function paintScreen()
       {
-          ctx.fillStyle = "#000";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          drawingArea.fillStyle = "#000";
+          drawingArea.fillRect(0, 0, canvas.width, canvas.height);
 
           let playerSpriteSheet = player.assets.getSpriteSheet();
           let playerSprite = player.assets.getNextSprite();
 
-          ctx.drawImage(
+          drawingArea.drawImage(
             playerSpriteSheet,
             playerSprite.x,
             playerSprite.y,
@@ -170,6 +173,18 @@
             player.y,
             playerSprite.spriteWidth,
             playerSprite.spriteHeight);
+
+            if(player.fire)
+            {
+              drawingArea.fillStyle = "#FFF";
+              drawingArea.fillRect(bullet.x, bullet.y, 1, 1);
+              bullet.y--;
+            }
+            else  
+            {
+              bullet.x = player.x + playerSprite.spriteWidth / 2;
+              bullet.y = player.y - playerSprite.spriteHeight / 32;
+            }
 
             currentTick++;
       }
