@@ -20,6 +20,17 @@
       var fps = 26;
       var currentTick = 0;
 
+      class SpriteFrameLocation
+      {
+        constructor(x, y, spriteWidth, spriteHeight)
+        {
+          this.x = x;
+          this.y = y;
+          this.spriteWidth = spriteWidth;
+          this.spriteHeight = spriteHeight;
+        }
+      }
+
       var player = 
       {
         x: 100,
@@ -31,7 +42,7 @@
         speed: 10,
         assets: 
         {
-            getSpriteSheet()
+            getSpriteSheet: function ()
             {
                 let image = new Image();
                 image.src = "Assets/Player_Ship_1.png";
@@ -39,7 +50,7 @@
             },
             currentSprite: 0,
       //TODO: later on extract generic method for getting spritesheet along with each sprite coords
-            getSpriteFrames()
+            getSpriteFrames: function ()
             {
                 let spriteWidth = 32;
                 let spriteHeight = 32;
@@ -51,24 +62,27 @@
                 {
                     for(let column = 0; column < columnsCount; column++)
                     {
-                        spriteFrames[row+column] = 
-                        {
-                            x: (column * (spriteWidth)),
-                            y: (row * (spriteHeight)),
-                            spriteWidth: spriteWidth,
-                            spriteHeight: spriteHeight
-                        };
+                        spriteFrames[row + column] = new SpriteFrameLocation
+                        (
+                          row * spriteWidth,
+                          column * spriteHeight,
+                          spriteWidth,
+                          spriteHeight
+                        );
                     }
                 }
 
                 return spriteFrames;
             },
-            getNextSprite()
+            getNextSprite: function ()
             {
-                ++this.currentSprite;
-                if(this.currentSprite == this.getSpriteFrames().length)
+                if(currentTick % fps == 0)
                 {
-                    this.currentSprite = 0;
+                  ++this.currentSprite;
+                  if(this.currentSprite == this.getSpriteFrames().length)
+                  {
+                      this.currentSprite = 0;
+                  }
                 }
                 return this.getSpriteFrames()[this.currentSprite];
             }
@@ -143,10 +157,11 @@
           ctx.fillStyle = "#000";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          var playerSprite = player.assets.getNextSprite();
+          let playerSpriteSheet = player.assets.getSpriteSheet();
+          let playerSprite = player.assets.getNextSprite();
 
           ctx.drawImage(
-            player.assets.getSpriteSheet(),
+            playerSpriteSheet,
             playerSprite.x,
             playerSprite.y,
             playerSprite.spriteWidth,
@@ -155,6 +170,8 @@
             player.y,
             playerSprite.spriteWidth,
             playerSprite.spriteHeight);
+
+            currentTick++;
       }
     </script>
 
