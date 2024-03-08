@@ -6,5 +6,8 @@
     "defaults",
     "not ie 11",
     "not edge <= 122"
-  ]
+  ],
+  "hints": {
+    "apple-touch-icons": "off"
+  }
 }

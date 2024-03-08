@@ -5,20 +5,26 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="https://c.s-microsoft.com/favicon.ico?v2" />
     <link rel="manifest" href="/manifest.json">
-    <link rel="stylesheet" href="game.css">
     <title>Cell-S-Dial</title>
   </head>
   <body>
 
-    <canvas id="game"></canvas>
-
+    <!-- TODO: for the time of using live-server for quick feedback it is more useful to keep the code inline.
+    extract later -->
     <!-- <script src="game_logic.js"></script> -->
     <script>
+      const SPRITE_WIDTH = 32;
+      const SPRITE_HEIGHT = 32;
+      const SCALE = 1;
+      const FPS = 26;
+      canvas = document.createElement('canvas');
+      canvas.width = SPRITE_WIDTH * SCALE;
+      canvas.height = SPRITE_HEIGHT * SCALE;
+      document.body.appendChild(this.canvas);
 
-      var canvas = document.getElementById("game");
-      var drawingArea = canvas.getContext("2d");
-      var fps = 20;
-      var currentTick = 0;
+      this.context = this.canvas.getContext('2d');
+      this.context.imageSmoothingEnabled = false;
+      this.context.scale(SCALE, SCALE);
 
       class SpriteFrameLocation
       {
@@ -46,63 +52,74 @@
         down: false,
         fire: false,
         speed: 10,
-        assets:
-        {
-          getSpriteSheet: function ()
+        frame: 0,
+        frameIndex: 0,
+        getSpriteSheet: function ()
           {
             let image = new Image();
             image.src = "Assets/Player_Ship_1.png";
+            image.crossOrigin = true;
             return image;
           },
           currentSprite: 0,
-    //TODO: later on extract generic method for getting spritesheet along with each sprite coords
-          getSpriteFrames: function ()
-          {
-            let spriteWidth = 32;
-            let spriteHeight = 32;
-            let rowsCount = 1;
-            let columnsCount = 2;
-
-            let spriteFrames = [];
-            for(let row = 0; row < rowsCount; row++)
-            {
-              for(let column = 0; column < columnsCount; column++)
-              {
-                spriteFrames[row + column] = new SpriteFrameLocation
-                (
-                  row * spriteWidth,
-                  column * spriteHeight,
-                  spriteWidth,
-                  spriteHeight
-                );
-              }
-            }
-
-            return spriteFrames;
-          },
-          getNextSprite: function ()
-          {
-            ++this.currentSprite;
-            if(this.currentSprite == this.getSpriteFrames().length)
-            {
-                this.currentSprite = 0;
-            }
-            return this.getSpriteFrames()[this.currentSprite];
-          }
-        }
+          <!-- TODO: later on extract generic method for getting spritesheet along with each sprite coords -->
+          flightCycle: [
+            new SpriteFrameLocation
+              (
+                0 * SPRITE_WIDTH,
+                0 * SPRITE_HEIGHT,
+                SPRITE_WIDTH,
+                SPRITE_HEIGHT
+              ),
+            new SpriteFrameLocation
+              (
+                0 * SPRITE_WIDTH,
+                1 * SPRITE_HEIGHT,
+                SPRITE_WIDTH,
+                SPRITE_HEIGHT
+              ),
+          ]
       };
+
+      function animate()
+      {
+        if(player.frameIndex == player.flightCycle.length)
+        {
+          player.frameIndex = 0;
+        }
+        player.frame = player.flightCycle[player.frameIndex];
+        context.clearRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+        context.drawImage(
+          player.getSpriteSheet(),
+          player.frame.x,
+          player.frame.y,
+          player.frame.spriteWidth,
+          player.frame.spriteHeight,
+          0,
+          0,
+          player.frame.spriteWidth,
+          player.frame.spriteHeight,
+        );
+        player.frameIndex += 1;
+      }
 
       window.onload = function()
       {
-          document.addEventListener("keydown", keydown);
-          document.addEventListener("keyup", keyup);
-          setInterval(gameloop, 1000 / fps);
+        document.addEventListener("keydown", keydown);
+        document.addEventListener("keyup", keyup);
+        setInterval(gameloop, 1000 / FPS);
       }
 
       function gameloop()
       {
           gamelogic();
           paintScreen();
+          animate();
       }
 
       function intersectRect(r1l, r1u, r1r, r1d, r2l, r2u, r2r, r2d)
@@ -155,46 +172,19 @@
           }
       }
 
+      
       function paintScreen()
       {
-          drawingArea.fillStyle = "#000";
-          drawingArea.fillRect(0, 0, canvas.width, canvas.height);
-
-          let playerSpriteSheet = player.assets.getSpriteSheet();
-          let playerSprite = player.assets.getNextSprite();
-
-          drawingArea.drawImage(
-            playerSpriteSheet,
-            playerSprite.x,
-            playerSprite.y,
-            playerSprite.spriteWidth,
-            playerSprite.spriteHeight,
-            player.x,
-            player.y,
-            playerSprite.spriteWidth,
-            playerSprite.spriteHeight);
-
-            if(player.fire)
-            {
-              drawingArea.fillStyle = "#FFF";
-              drawingArea.fillRect(bullet.x, bullet.y, 1, 1);
-              bullet.y--;
-            }
-            else  
-            {
-              bullet.x = player.x + playerSprite.spriteWidth / 2;
-              bullet.y = player.y - playerSprite.spriteHeight / 32;
-            }
-
-            currentTick++;
+        context.fillStyle = "#000";
+        context.fillRect(0, 0, canvas.width, canvas.height);
       }
     </script>
-
-    <!-- <script>
+    
+    <script>
       if('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', { scope: '/' });
       }
-    </script> -->
+    </script>
 
   </body>
 </html>
