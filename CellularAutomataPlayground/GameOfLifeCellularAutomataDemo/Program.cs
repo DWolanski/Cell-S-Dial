@@ -10,7 +10,7 @@ namespace GameOfLifeCellularAutomataDemo
                 columnsCount: 120,
                 rowsCount: 40,
                 generationsCount: 500);
-
+             
             Console.ReadKey();
 
             for (int numberOfGeneration = 0; numberOfGeneration < automaton.Generations.GetLength(0); numberOfGeneration++)
