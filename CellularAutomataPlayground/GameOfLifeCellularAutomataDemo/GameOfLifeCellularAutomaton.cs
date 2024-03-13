@@ -18,7 +18,7 @@
             var importedInitialGenerationRows = importedInitialGeneration.Split(Environment.NewLine);
             var rowsCount = importedInitialGenerationRows.Length;
             var columnsCount = importedInitialGenerationRows[0].Length;
-
+             
             Generations = new int[generationsCount, rowsCount, columnsCount];
 
             for (int numberOfRow = 0; numberOfRow < rowsCount; numberOfRow++)
