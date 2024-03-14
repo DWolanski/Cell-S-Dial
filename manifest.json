@@ -4,8 +4,9 @@
     "short_name": "Cell-S-Dial",
     "description": "Top down space 2d space shooter isnpired by NES/Famicom games era",
     "start_url": "/",
-    "background_color": "#2f3d58",
-    "theme_color": "#2f3d58",
-    "orientation": "any",
-    "display": "standalone"
+    "background_color": "#000000",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#FFFFFF",
+    "orientation": "any"
 }

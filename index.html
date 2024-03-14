@@ -5,18 +5,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="shortcut icon" href="https://c.s-microsoft.com/favicon.ico?v2" />
     <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
     <title>Cell-S-Dial</title>
   </head>
   <body>
-    <script src="Scripts/SpriteFrameLocation.js"></script>
-    <script src="Scripts/player.js"></script>
-    <script src="Scripts/gameLogic.js"></script>
-    <script src="Scripts/canvasLogic.js"></script>
-    <script src="Scripts/movementLogic.js"></script>
-    <script src="Scripts/collisionLogic.js"></script>
+    <script src="js/sketch.js"></script>
     <script>
       if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' });
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' });
       }
     </script>
 
