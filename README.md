@@ -1,26 +1,7 @@
 # Cell-S-Dial
 Top down space shooter inspired by all the great games of this genre on NES/Famicom and by cellular automata mechanics.
 
-## How to launch, or 'it works for me'
-1. Clone repository
-2. Install live-server: `npm install -g live-server`
-3. Go to repository root
-4. From command line: `npx live-server --port=8080 --host=192.168.0.133 --cors`
-5. Default browser should automatically open and go to host address
-6. Have fun playing/testing :-)
-
-## Features
-1. HTML canvas rendering
-2. Loading external assets
-3. Player movement and shooting
-4. Singular cell enemies
-5. Basic AABB collision bullets vs enemies
-6. Automatic vertical scroll
-
-## Roadmap
-1. Tier 1 - Simplistic bare-bone game engine with basic collisions, 2d cellular automata behavior and HUD
-2. Tier 2 - Title screen, game over screen, pause menu
-3. Tier 3 - Improve mechanics **[to be defined]**
+[WORK IN PROGRESS. I need to scrap it and go back to board with the ideas.]
 
 ## Felieton - krótki esej biograficzny i dlaczego po 30-stce postanowiłem stworzyć swoją pierwszą grę
 Jako, że to jest pierwszy dzień konkursu, zacznę od krótkiego kontekstu dlaczego to i dlaczego tak.
