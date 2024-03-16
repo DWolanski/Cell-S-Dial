@@ -3,11 +3,11 @@ Top down space shooter inspired by all the great games of this genre on NES/Fami
 
 ## Roadmap
 ### Tier 1 - MVP
-1. Basic canvas playfield
-2. Basic 2d movement of player ship - for now placeholder block
-3. Shooting mechanism - for now placeholder bullets
-4. Enemies - generation, choreography. To keep it simple, first enemies will be generated via random game of life generation.
-5. PWA - game installable from browser
+1. Basic canvas playfield [----------] 0%
+2. Basic 2d movement of player ship - for now placeholder block [----------] 0%
+3. Shooting mechanism - for now placeholder bullets [----------] 0%
+4. Enemies - generation, choreography. To keep it simple, first enemies will be generated via random game of life generation. [----------] 0%
+5. PWA - game installable from browser [----------] 0%
 
 ## Felieton - krótki esej biograficzny i dlaczego po 30-stce postanowiłem stworzyć swoją pierwszą grę
 Jako, że to jest pierwszy dzień konkursu, zacznę od krótkiego kontekstu dlaczego to i dlaczego tak.
