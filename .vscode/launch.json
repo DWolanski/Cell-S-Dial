@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Program",
-            "url": "http://192.168.0.133:8080",
+            "url": "127.0.0.1:8080",
             "webRoot": "${workspaceFolder}"
         }
     ]
