@@ -25,7 +25,7 @@ function draw() {
   // }
 
   if (frameCount % 100 == 0) {
-    cells.push(new TwoByTwoSwarm(2));
+    cells.push(new ShadowCloneSwarm(2));
   }
 }
 
@@ -134,7 +134,7 @@ class Cell {
   }
 }
 
-class TwoByTwoSwarm extends Cell {
+class ShadowCloneSwarm extends Cell {
   constructor(speed, posX = null, posY = null) {
     super(speed, posX, posY);
     this.cells = [];
