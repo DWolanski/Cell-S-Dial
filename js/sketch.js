@@ -20,8 +20,12 @@ function draw() {
     }
   }
 
-  if (frameCount % 200 == 0) {
-    cells.push(new Cell(2));
+  // if (frameCount % 200 == 0) {
+  //   cells.push(new Cell(2));
+  // }
+
+  if (frameCount % 100 == 0) {
+    cells.push(new TwoByTwoSwarm(2));
   }
 }
 
@@ -89,31 +93,73 @@ class Player {
 }
 
 class Cell {
-    constructor(speed) {
-        this.speed = speed;
-        let y;
+  constructor(speed, posX = null, posY = null) {
+      this.speed = speed;
+      let y = posY;
+      if(posY == null) {
         if (random(1) < 0.5) {
           // from the top
           y = random(-300, 0);            
         }
-        
-        let x = random(0, width);
-        this.pos = createVector(x, y);
-    }
+      }
 
-    draw() {
-        push();
-        fill(100, 255, 100);
-        rect(this.pos.x, this.pos.y, 20, 20);
-        pop();
+      let x = posX;
+      if(posY == null) {
+        x = random(0, width);
+      }
+      
+      this.pos = createVector(x, y);
+  }
+
+  draw() {
+      push();
+      fill(100, 255, 100);
+      rect(this.pos.x, this.pos.y, 20, 20);
+      pop();
+  }
+  
+  
+  update() {
+      let difference = p5.Vector.sub(player.pos, this.pos);
+      difference.limit(this.speed);
+      this.pos.add(difference);
+  }
+
+  hasBeenShot(bullet) {
+    if (dist(bullet.x, bullet.y, this.pos.x, this.pos.y) < 15) {
+      this.bullets.splice(i, 1);
+      return true;
     }
-    
-    
-    update() {
-        let difference = p5.Vector.sub(player.pos, this.pos);
-        difference.limit(this.speed);
-        this.pos.add(difference);
+    return false;
+  }
+}
+
+class TwoByTwoSwarm extends Cell {
+  constructor(speed, posX = null, posY = null) {
+    super(speed, posX, posY);
+    this.cells = [];
+    this.cells.push(new Cell(0, this.pos.x, this.pos.y));
+    this.cells.push(new Cell(0, this.pos.x + 20, this.pos.y));
+    this.cells.push(new Cell(0, this.pos.x, this.pos.y + 20));
+    this.cells.push(new Cell(0, this.pos.x + 20, this.pos.y + 20));
+  }
+
+  draw() {
+    push();
+      fill(100, 255, 100);
+    for (let i = this.cells.length - 1; i >= 0; i--) {
+      rect(this.cells[i].pos.x, this.cells[i].pos.y, 20, 20);
     }
+    pop();
+  }
+
+  update() {
+    super.update();
+    this.cells[0].pos = createVector(this.pos.x, this.pos.y);
+    this.cells[1].pos = createVector(this.pos.x + 20, this.pos.y);
+    this.cells[2].pos = createVector(this.pos.x, this.pos.y + 20);
+    this.cells[3].pos = createVector(this.pos.x + 20, this.pos.y + 20);
+  }
 }
 
 class Bullet {
@@ -122,7 +168,6 @@ class Bullet {
       this.y = y;
       this.speed = 16;
     }
-    
     
     draw() {
       push();
