@@ -14,18 +14,16 @@ function draw() {
   for (let i = cells.length - 1; i >= 0; i--) {
     cells[i].draw();
     cells[i].update();
-    
-    if (player.hasShot(cells[i])) {
-      cells.splice(i, 1);
-    }
   }
+
+  player.hasShot(cells);
 
   if (frameCount % 50 == 0) {
     cells.push(new Cell(2));
   }
 
   if (frameCount % 100 == 0) {
-    cells.push(new ShadowCloneSwarm(2));
+    cells.push(new CellSwam(2));
   }
 }
 
@@ -77,18 +75,16 @@ class Player {
     }
 
     shoot() {
-        if(this.bullets.length > 10) return;
+        if(this.bullets.length > 1) return;
         this.bullets.push(new Bullet(this.pos.x, this.pos.y));
     }
 
-    hasShot(cell) {
-        for (let i = 0; i < this.bullets.length; i++) {
-          if (dist(this.bullets[i].x, this.bullets[i].y, cell.pos.x, cell.pos.y) < 15) {
-            this.bullets.splice(i, 1);
-            return true;
+    hasShot(cells) {
+        for (let i = cells.length - 1; i >= 0; i--) {
+          if (cells[i].hasBeenShot(this.bullets)) {
+            cells.splice(i, 1);
           }
         }
-        return false;
       }
 }
 
@@ -125,16 +121,20 @@ class Cell {
       this.pos.add(difference);
   }
 
-  hasBeenShot(bullet) {
-    if (dist(bullet.x, bullet.y, this.pos.x, this.pos.y) < 15) {
-      this.bullets.splice(i, 1);
-      return true;
+  hasBeenShot(bullets) {
+    for (let i = 0; i < bullets.length; i++) {
+      if(dist(bullets[i].x, bullets[i].y, this.pos.x, this.pos.y) < 15)
+      {
+        bullets.splice(i, 1);
+        return true;
+      }
     }
+
     return false;
   }
 }
 
-class ShadowCloneSwarm extends Cell {
+class CellSwam extends Cell {
   constructor(speed, posX = null, posY = null) {
     super(speed, posX, posY);
     this.cells = [];
@@ -146,7 +146,7 @@ class ShadowCloneSwarm extends Cell {
 
   draw() {
     push();
-      fill(100, 255, 100);
+    fill(100, 255, 100);
     for (let i = this.cells.length - 1; i >= 0; i--) {
       rect(this.cells[i].pos.x, this.cells[i].pos.y, 20, 20);
     }
@@ -155,10 +155,37 @@ class ShadowCloneSwarm extends Cell {
 
   update() {
     super.update();
-    this.cells[0].pos = createVector(this.pos.x, this.pos.y);
-    this.cells[1].pos = createVector(this.pos.x + 20, this.pos.y);
-    this.cells[2].pos = createVector(this.pos.x, this.pos.y + 20);
-    this.cells[3].pos = createVector(this.pos.x + 20, this.pos.y + 20);
+
+    if(typeof this.cells[0] !== 'undefined')
+    {
+      this.cells[0].pos = createVector(this.pos.x, this.pos.y);
+    }
+
+    if(typeof this.cells[1] !== 'undefined')
+    {
+      this.cells[1].pos = createVector(this.pos.x + 20, this.pos.y);
+    }
+
+    if(typeof this.cells[2] !== 'undefined')
+    {
+      this.cells[2].pos = createVector(this.pos.x, this.pos.y + 20);
+    }
+
+    if(typeof this.cells[3] !== 'undefined')
+    {
+      this.cells[3].pos = createVector(this.pos.x + 20, this.pos.y + 20);
+    }
+  }
+
+  hasBeenShot(bullets) {
+    for (let i = this.cells.length - 1; i >= 0; i--) {
+      if(this.cells[i].hasBeenShot(bullets))
+      {
+        this.cells.splice(i, 1);
+      }
+    }
+
+    return this.cells.length == 0
   }
 }
 
