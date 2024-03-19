@@ -20,9 +20,9 @@ function draw() {
     }
   }
 
-  // if (frameCount % 200 == 0) {
-  //   cells.push(new Cell(2));
-  // }
+  if (frameCount % 50 == 0) {
+    cells.push(new Cell(2));
+  }
 
   if (frameCount % 100 == 0) {
     cells.push(new ShadowCloneSwarm(2));
