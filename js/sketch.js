@@ -8,6 +8,7 @@ function setup() {
 function draw() {
     background(100, 100, 100);
     rectMode(CENTER);
+    frameRate(30);
     player.draw();
     player.update();
 
@@ -30,6 +31,8 @@ function draw() {
 class Player {
     constructor() {
         this.pos = createVector(width / 2, height / 2);
+        this.xAccel = 1;
+        this.yAccel = 1;
         this.bullets = [];
     }
 
@@ -51,27 +54,49 @@ class Player {
     update() {
         let xSpeed = 0;
         let ySpeed = 0;
-        if (keyIsDown(37)) {
-          xSpeed = -2;
+        if (keyIsDown(37)) 
+        {
+          xSpeed = -this.xAccel;
         }
     
-        if (keyIsDown(39)) {
-          xSpeed = 2;
+        if (keyIsDown(39)) 
+        {
+          xSpeed = this.xAccel;
+        }
+
+        if(keyIsDown(37) || keyIsDown(39))
+        {
+          this.xAccel = max(this.xAccel + 0.1 * this.xAccel, 3);
+        }
+        else
+        {
+          this.xAccel = min(this.xAccel - 0.1 * this.xAccel, 3);
         }
     
-        if (keyIsDown(38)) {
-          ySpeed = -2;
+        if (keyIsDown(38)) 
+        {
+          this.yAccel += min(this.yAccel * this.yAccel, 10);
+          ySpeed = -this.yAccel;
         }
     
-        if (keyIsDown(40)) {
-          ySpeed = 2;
+        if (keyIsDown(40)) 
+        {
+          this.yAccel += min(this.yAccel * this.yAccel, 10);
+          ySpeed = this.yAccel;
+        }
+
+        if(!(keyIsDown(38) || keyIsDown(40)))
+        {
+          this.yAccel = max(this.yAccel - 0.1 * (this.yAccel * this.yAccel), 3);
         }
 
         if (keyIsDown(90)) {
             this.shoot();
-          }
+        }
 
         this.pos.add(xSpeed, ySpeed);
+        text("xAccel:" + this.xAccel, 50, 50);
+        text("yAccel:" + this.yAccel, 50, 60);
     }
 
     shoot() {
@@ -116,10 +141,8 @@ class Cell {
   
   
   update() {
-      let difference = p5.Vector.sub(player.pos, this.pos);
-      difference.limit(this.speed);
-      this.pos.add(difference);
-  }
+      this.pos.y += this.speed;
+    }
 
   hasBeenShot(bullets) {
     for (let i = 0; i < bullets.length; i++) {
@@ -199,7 +222,7 @@ class Bullet {
     draw() {
       push();
       fill(0);
-      circle(this.x, this.y, 5);
+      rect(this.x, this.y, 5);
       pop();
     }
     

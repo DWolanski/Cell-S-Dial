@@ -1,0 +1,6 @@
+{
+    "liveServer.settings.ChromeDebuggingAttachment": true,
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.host": "localhost",
+    "liveServer.settings.NoBrowser": true
+}

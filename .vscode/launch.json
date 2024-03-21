@@ -5,11 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": "Launch",
+            "port": 9222,
             "request": "launch",
-            "name": "Launch Program",
-            "url": "127.0.0.1:8080",
-            "webRoot": "${workspaceFolder}"
+            "type": "pwa-chrome",
+            "url": "http://localhost:5500",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "StartServer",
+            "postDebugTask": "StopServer"
         }
     ]
 }
