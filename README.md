@@ -3,7 +3,7 @@ Top down space shooter inspired by all the great games of this genre on NES/Fami
 
 ## Roadmap
 ### Tier 1 - MVP
-1. Basic canvas playfield [|---------] 10%
+1. Basic canvas playfield [||--------] 20%
 2. Basic 2d movement of player ship - for now placeholder block [||||------] 40%
 3. Shooting mechanism - for now placeholder bullets [||||||----] 60%
 4. Enemies - generation, choreography. To keep it simple, first enemies will be generated via random game of life generation. [||--------] 20%
