@@ -67,7 +67,7 @@ class Player {
         if(keyIsDown(37) || keyIsDown(39))
         {
           this.xAccel = max(this.xAccel + 0.1 * this.xAccel, 3);
-        }
+        } 
         else
         {
           this.xAccel = min(this.xAccel - 0.1 * this.xAccel, 3);
