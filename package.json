@@ -1,0 +1,11 @@
+{
+  "name": "cell-s-dial",
+  "version": "1.0.0",
+  "description": "Top down space shooter inspired by all the great games of this genre on NES/Famicom and by cellular automata mechanics.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dawid Wolański",
+  "license": "MIT"
+}
