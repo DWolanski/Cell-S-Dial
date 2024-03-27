@@ -9,6 +9,9 @@ Top down space shooter inspired by all the great games of this genre on NES/Fami
 4. Enemies - generation, choreography. To keep it simple, first enemies will be generated via random game of life generation. [||--------] 20%
 5. PWA - game installable from browser [||||||||--] 80%
 
+Tactical dots
+.
+
 ## Felieton - krótki esej biograficzny i dlaczego po 30-stce postanowiłem stworzyć swoją pierwszą grę
 Jako, że to jest pierwszy dzień konkursu, zacznę od krótkiego kontekstu dlaczego to i dlaczego tak.
 
