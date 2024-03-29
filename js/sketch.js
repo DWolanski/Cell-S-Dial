@@ -1,5 +1,7 @@
 let player;
 let cells = [];
+let rng = new Math.seedrandom(`Cell-S-Dial`);
+
 function setup() {
     createCanvas(700, 700);
     player = new Player();
@@ -93,15 +95,15 @@ class Cell {
       this.speed = speed;
       let y = posY;
       if(posY == null) {
-        if (random(1) < 0.5) {
+        if (rng(1) < 0.5) {
           // from the top
-          y = random(-300, 0);            
+          y = rng(-300, 0);            
         }
       }
 
       let x = posX;
       if(posY == null) {
-        x = random(0, width);
+        x = rng(0, width);
       }
       
       this.pos = createVector(x, y);
