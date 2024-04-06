@@ -25,7 +25,7 @@ Pracujemy w niszy póki co desktopowej i mamy sporo legacy w VB.Net, ale sam pro
 
 Na początku była fascynacja...
 
-Urodziłem się 25 maja 2024 roku w Łodzi w Centrum Zdrowia Matki Polki.
+Urodziłem się 25 maja 1992 roku w Łodzi w Centrum Zdrowia Matki Polki.
 Od najwcześniejszych lat byłem zainteresowany techniką, komputerami, grmai wideo.
 Jako dzieciak w wieku szkolnym już podejmowałem swoje pierwsze wyzwania w naprawianiu komputerów.
 
